@@ -1,0 +1,7 @@
+﻿@model MovieCardModel
+
+<div class="card h-100 border-0 shadow-sm bg-dark">
+    <a asp-controller="Movies" asp-action="Details" asp-route-id="@Model.Id">
+        <img src="@Model.PosterUrl" class="card-img-top img-fluid rounded" alt="@Model.Title" />
+    </a>
+</div>

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="AntraMovieShop.Web/AntraMovieShop.Web.csproj" />
+  <Project Path="ApplicationCore/ApplicationCore.csproj" />
+  <Project Path="Infrastructure/Infrastructure.csproj" />
+</Solution>

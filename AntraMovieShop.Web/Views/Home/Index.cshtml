@@ -1,0 +1,17 @@
+﻿
+@model IEnumerable<MovieCardModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid my-4">
+    <!-- row-cols-2 = 2 per row on mobile, row-cols-md-4 = 4 on tablet, row-cols-lg-6 = 6 on desktop -->
+    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3">
+        @foreach (var movie in Model)
+        {
+            <div class="col">
+                <partial name="_MovieCard" model="movie" />
+            </div>
+        }
+    </div>
+</div>

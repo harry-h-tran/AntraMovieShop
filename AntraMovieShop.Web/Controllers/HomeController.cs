@@ -1,0 +1,34 @@
+using System.Diagnostics;
+using AntraMovieShop.Web.Models;
+using ApplicationCore.Contracts.Services;
+using ApplicationCore.Entity;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AntraMovieShop.Web.Controllers
+{
+    public class HomeController : Controller
+    {
+        private readonly IMovieService _movieService;
+
+        public HomeController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
+        public IActionResult Index()
+        {
+            var movieCards = _movieService.GetTopGrossingMovieCards();
+            return View(movieCards);
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+    }
+}
