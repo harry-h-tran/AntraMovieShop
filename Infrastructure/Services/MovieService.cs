@@ -15,7 +15,7 @@ namespace Infrastructure.Services
 
         public MovieDetailsModel? GetMovieDetails(int id)
         {
-            var movie = _movieRepository.GetByID(id);
+            var movie = _movieRepository.GetMovieByIdWithDetails(id);
             if (movie == null)
             {
                 return null;
@@ -24,7 +24,28 @@ namespace Infrastructure.Services
             return new MovieDetailsModel
             {
                 Id = movie.Id,
-                Title = movie.Title
+                Title = movie.Title,
+                Tagline = movie.Tagline,
+                RunTime = movie.RunTime,
+                ReleaseDate = DateOnly.FromDateTime(movie.ReleaseDate ?? DateTime.MinValue),
+                BackdropUrl = movie.BackdropUrl,
+                Budget = movie.Budget,
+                ImdbUrl = movie.ImdbUrl,
+                Overview = movie.Overview,
+                PosterUrl = movie.PosterUrl,
+                Price = movie.Price,
+                Genres = movie.Genres.Select(g => new GenreModel
+                {
+                    Id = g.Genre.Id,
+                    Name = g.Genre.Name
+                }).ToList(),
+                Casts = movie.Cast.Select(mc => new CastModel
+                {
+                    CastId = mc.CastId,
+                    Name = mc.Casts.Name,
+                    CharacterName = mc.Character,
+                    ProfilePath = mc.Casts.ProfilePath
+                }).ToList()
             };
         }
 

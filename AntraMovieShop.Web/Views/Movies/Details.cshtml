@@ -2,3 +2,18 @@
 
 <h1>@Model.Title</h1>
 <p>Movie ID: @Model.Id</p>
+<p>Tagline: @Model.Tagline</p>
+<p>Overview: @Model.Overview</p>
+<p>Poster</p>
+<img src="@Model.PosterUrl" alt="Poster" />
+<p>Backdrop</p>
+<img src="@Model.BackdropUrl" alt="Backdrop" />
+<ul>Genres
+    @foreach (var genre in Model.Genres)
+    {
+        <li>@genre.Name</li>
+    }
+</ul>
+
+<p>Release Date: @Model.ReleaseDate</p>
+<p></p>

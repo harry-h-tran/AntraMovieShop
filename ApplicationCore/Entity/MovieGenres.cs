@@ -6,6 +6,6 @@
         public Movie movie { get; set; } = null;
 
         public int GenreId { get; set; }
-        public Genre genre { get; set; } = null;
+        public Genre Genre { get; set; } = null;
     }
 }

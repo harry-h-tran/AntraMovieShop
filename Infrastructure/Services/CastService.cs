@@ -1,6 +1,8 @@
-﻿namespace Infrastructure.Services
+﻿using ApplicationCore.Contracts.Services;
+
+namespace Infrastructure.Services
 {
-    internal class CastService
+    public class CastService : ICastService
     {
     }
 }

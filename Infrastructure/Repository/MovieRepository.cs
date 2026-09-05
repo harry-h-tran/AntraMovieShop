@@ -2,6 +2,7 @@
 using ApplicationCore.Entity;
 using ApplicationCore.Model;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
@@ -12,6 +13,16 @@ namespace Infrastructure.Repository
         public MovieRepository(MovieShopDbContext context) : base(context)
         {
             _dbContext = context;
+        }
+        public Movie? GetMovieByIdWithDetails(int id)
+        {
+            return _dbContext.Movies
+                .Include(m => m.Genres)
+                    .ThenInclude(mg => mg.Genre)
+                .Include(m => m.Cast)
+                    .ThenInclude(mc => mc.Casts)
+                .AsNoTracking()
+                .FirstOrDefault(m => m.Id == id);
         }
 
         public IEnumerable<Movie> GetTop30GrossingMovies()

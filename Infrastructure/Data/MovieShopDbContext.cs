@@ -12,6 +12,9 @@ namespace Infrastructure.Data
 
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<MovieGenres> MovieGenres { get; set; }
+        public DbSet<MovieCasts> MovieCasts { get; set; }
+        public DbSet<Casts> Casts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -19,7 +22,13 @@ namespace Infrastructure.Data
             modelBuilder.Entity<MovieGenres>()
                 .HasKey(mg => new { mg.MovieId, mg.GenreId });
 
-            modelBuilder.Entity<MovieGenres>().ToTable(nameof(MovieGenres));
+            modelBuilder.Entity<MovieCasts>()
+                .HasOne(mc => mc.Casts)
+                .WithMany(c => c.Movies)
+                .HasForeignKey(mc => mc.CastId);
+
+            modelBuilder.Entity<MovieCasts>()
+                .HasKey(mc => new { mc.MovieId, mc.CastId });
         }
     }
 }
