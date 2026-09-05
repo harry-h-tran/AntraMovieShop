@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using AntraMovieShop.Web.Models;
 using ApplicationCore.Contracts.Services;
-using ApplicationCore.Entity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntraMovieShop.Web.Controllers

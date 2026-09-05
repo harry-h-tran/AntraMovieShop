@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ApplicationCore.Contracts.Repository;
+﻿using ApplicationCore.Contracts.Repository;
 using ApplicationCore.Entity;
+using ApplicationCore.Model;
 using Infrastructure.Data;
 
 namespace Infrastructure.Repository
@@ -22,6 +20,36 @@ namespace Infrastructure.Repository
                 .OrderByDescending(m => m.Revenue)
                 .Take(30)
                 .ToList();
+        }
+
+        public IEnumerable<Movie> GetMoviesByGenre(int genreId)
+        {
+            return _dbContext.Movies
+                .Where(m => m.Genres.Any(mg => mg.GenreId == genreId))
+                .ToList();
+        }
+
+        public PagedResultSet<Movie> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1)
+        {
+            var query = _dbContext.Movies
+                .Where(m => m.Genres.Any(mg => mg.GenreId == genreId));
+
+            var totalMovies = query.Count();
+
+            var movies = query
+                .OrderBy(m => m.Id)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return new PagedResultSet<Movie>
+            {
+                results = movies,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling(totalMovies / (double)pageSize),
+                TotalResults = totalMovies
+            };
         }
     }
 }

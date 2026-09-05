@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ApplicationCore.Entity
 {
@@ -13,5 +10,7 @@ namespace ApplicationCore.Entity
         [Column(TypeName = "varchar(24)")]
         [Required(ErrorMessage = "Genre Name is Required")]
         public string Name { get; set; }
+
+        public ICollection<MovieGenres> Movies { get; set; } = new List<MovieGenres>();
     }
 }

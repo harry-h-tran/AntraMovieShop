@@ -1,18 +1,75 @@
 ﻿<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Movie Shop <i class="bi bi-film"></i></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">GENRES <i class="bi bi-caret-down-fill"></i></a>
-                    </li>
-                </ul>
+    <nav class="navbar navbar-dark bg-dark border-bottom border-secondary shadow-sm mb-3">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+
+            <!-- Left Side: Brand Logo & Genres Dropdown -->
+            <div class="d-flex align-items-center gap-4">
+                <!-- Brand Logo -->
+                <a class="navbar-brand fw-bold text-white m-0" asp-controller="Home" asp-action="Index">
+                    Movie Shop <i class="bi bi-film"></i>
+                </a>
+                @await Component.InvokeAsync("Genres")
             </div>
+
+            <!-- Right Side: Auth & User Controls -->
+            <div class="d-flex align-items-center gap-2">
+
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <!-- Admin Operations Dropdown -->
+                        <div class="dropdown me-2">
+                            <button class="btn btn-outline-warning dropdown-toggle" type="button" id="adminMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow" aria-labelledby="adminMenu">
+                                <li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateMovie">Create Movie</a></li>
+                                <li><a class="dropdown-item" asp-controller="Admin" asp-action="CreateCast">Create Cast</a></li>
+                            </ul>
+                        </div>
+                    }
+
+                    <!-- Authenticated User Profile Menu -->
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            @User.Identity.Name
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow" aria-labelledby="userMenu">
+                            <li>
+                                <a class="dropdown-item" asp-controller="User" asp-action="Purchases">
+                                    Movies<i class="bi bi-film"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" asp-controller="User" asp-action="Favorites">
+                                    Favorites<i class="bi bi-star-fill"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" asp-controller="User" asp-action="Account">
+                                    Account<i class="bi bi-person-circle"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="dropdown-item">
+                                        Logout <i class="bi bi-box-arrow-right"></i>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <!-- Unauthenticated Guest Links -->
+                    <a class="btn btn-outline-light rounded-pill px-3" asp-controller="Account" asp-action="Login">Login</a>
+                    <a class="btn btn-outline-light rounded-pill px-3" asp-controller="Account" asp-action="Register">Register</a>
+                }
+
+            </div>
+
         </div>
     </nav>
 </header>

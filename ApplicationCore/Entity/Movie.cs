@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ApplicationCore.Entity
 {
     public class Movie
     {
+        [Key]
         public int Id { get; set; }
         public string? BackdropUrl { get; set; }
         public decimal? Budget { get; set; }
@@ -13,7 +12,7 @@ namespace ApplicationCore.Entity
         public DateTime? CreatedDate { get; set; }
         public string? ImdbUrl { get; set; }
         public string? OriginalLanguage { get; set; }
-        public string? Overview {  get; set; }
+        public string? Overview { get; set; }
         public string? PosterUrl { get; set; }
         public decimal? Price { get; set; }
         public DateTime? ReleaseDate { get; set; }
@@ -25,6 +24,7 @@ namespace ApplicationCore.Entity
         public string? UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
+        public ICollection<MovieGenres> Genres { get; set; } = new List<MovieGenres>();
 
     }
 }

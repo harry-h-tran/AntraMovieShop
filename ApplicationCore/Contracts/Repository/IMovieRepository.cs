@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ApplicationCore.Entity;
+﻿using ApplicationCore.Entity;
+using ApplicationCore.Model;
 
 namespace ApplicationCore.Contracts.Repository
 {
-    public interface IMovieRepository: IRepository<Movie>
+    public interface IMovieRepository : IRepository<Movie>
     {
-        public IEnumerable<Movie> GetTop30GrossingMovies();
+        IEnumerable<Movie> GetTop30GrossingMovies();
+        IEnumerable<Movie> GetMoviesByGenre(int genreId);
+        PagedResultSet<Movie> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1);
     }
 }

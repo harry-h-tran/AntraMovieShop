@@ -1,10 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ApplicationCore.Contracts.Services;
+using ApplicationCore.Entity;
+using ApplicationCore.Model;
 
 namespace Infrastructure.Services
 {
-    internal class UserService
+    public class UserService : IUserService
     {
+        public User RegisterUser(UserRegisterModel userRegisterModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User ValidateUser(UserLoginModel userLoginModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

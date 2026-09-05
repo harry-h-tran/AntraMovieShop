@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ApplicationCore.Entity;
+﻿using ApplicationCore.Model;
 
 namespace ApplicationCore.Contracts.Services
 {
     public interface IGenreService
     {
-        IEnumerable<Genre> GetAll();
+        IEnumerable<GenreModel> GetAll();
 
     }
 }

@@ -1,9 +1,8 @@
 ﻿namespace ApplicationCore.Model
 {
-    public class MovieCardModel
+    public class MovieDetailsModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string PosterUrl { get; set; }
     }
 }
