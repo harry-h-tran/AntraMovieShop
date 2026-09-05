@@ -15,7 +15,7 @@ namespace Infrastructure.Services
         }
         public IEnumerable<GenreModel> GetAll()
         {
-            var genres = _genreRepository.GetAll();
+            var genres = _genreRepository.GetAll().OrderBy(g => g.Name);
             return genres.Select(g => new GenreModel
             {
                 Id = g.Id,

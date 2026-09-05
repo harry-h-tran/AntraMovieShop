@@ -17,19 +17,19 @@
 
             <!-- First Page (<<) -->
             <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
-                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="1">&laquo;</a>
+                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="1" asp-route-sortBy="@ViewBag.CurrentSort">&laquo;</a>
             </li>
 
             <!-- Previous Page (<) -->
             <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
-                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@(Model.PageIndex - 1)">&lsaquo;</a>
+                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-sortBy="@ViewBag.CurrentSort">&lsaquo;</a>
             </li>
 
             <!-- First Few Pages (1, 2, 3, 4, 5) -->
             @for (int i = 1; i <= Math.Min(5, Model.TotalPages); i++)
             {
                 <li class="page-item @(i == Model.PageIndex ? "active" : "")">
-                    <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@i">@i</a>
+                    <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@i" asp-route-sortBy="@ViewBag.CurrentSort">@i</a>
                 </li>
             }
 
@@ -40,18 +40,18 @@
 
                 <!-- Last Page Number (e.g., 69) -->
                 <li class="page-item @(Model.PageIndex == Model.TotalPages ? "active" : "")">
-                    <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@Model.TotalPages">@Model.TotalPages</a>
+                    <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@Model.TotalPages" asp-route-sortBy="@ViewBag.CurrentSort">@Model.TotalPages</a>
                 </li>
             }
 
             <!-- Next Page (>) -->
             <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
-                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@(Model.PageIndex + 1)">&rsaquo;</a>
+                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-sortBy="@ViewBag.CurrentSort">&rsaquo;</a>
             </li>
 
             <!-- Last Page (>>) -->
             <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
-                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@Model.TotalPages">&raquo;</a>
+                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@Model.TotalPages" asp-route-sortBy="@ViewBag.CurrentSort">&raquo;</a>
             </li>
 
         </ul>

@@ -62,7 +62,7 @@ namespace Infrastructure.Services
             return movieCards;
         }
 
-        public PagedResultSet<MovieCardModel> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1)
+        public PagedResultSet<MovieCardModel> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1, string sortBy = "title_asc")
         {
             var pagedMovies = _movieRepository.GetMoviesByGenre(genreId, pageSize, pageIndex);
             var movieCards = pagedMovies.results.Select(movie => new MovieCardModel

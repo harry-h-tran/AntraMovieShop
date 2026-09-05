@@ -26,14 +26,15 @@ namespace AntraMovieShop.Web.Controllers
             return View(movieDetails);
         }
 
-        public IActionResult Genre(int id, int pageIndex = 1, int pageSize = 30)
+        public IActionResult Genre(int id, int pageIndex = 1, int pageSize = 30, string sortBy = "title_asc")
         {
-            var genreDetails = _movieService.GetMoviesByGenre(id, pageSize, pageIndex);
+            var genreDetails = _movieService.GetMoviesByGenre(id, pageSize, pageIndex, sortBy);
             if (genreDetails == null)
             {
                 return NotFound();
             }
             ViewBag.GenreId = id;
+            ViewBag.CurrentSort = sortBy;
             return View(genreDetails);
         }
     }

@@ -29,12 +29,21 @@ namespace Infrastructure.Repository
                 .ToList();
         }
 
-        public PagedResultSet<Movie> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1)
+        public PagedResultSet<Movie> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1, string sortBy = "title_asc")
         {
             var query = _dbContext.Movies
                 .Where(m => m.Genres.Any(mg => mg.GenreId == genreId));
 
             var totalMovies = query.Count();
+
+            query = sortBy.ToLower() switch
+            {
+                "title_asc" => query.OrderBy(m => m.Title),
+                "title_desc" => query.OrderByDescending(m => m.Title),
+                "release_date_asc" => query.OrderBy(m => m.ReleaseDate),
+                "release_date_desc" => query.OrderByDescending(m => m.ReleaseDate),
+                _ => query.OrderBy(m => m.Id)
+            };
 
             var movies = query
                 .OrderBy(m => m.Id)

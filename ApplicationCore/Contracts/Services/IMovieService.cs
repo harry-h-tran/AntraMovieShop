@@ -7,6 +7,6 @@ namespace ApplicationCore.Contracts.Services
         IEnumerable<MovieCardModel> GetTopGrossingMovieCards();
         MovieDetailsModel? GetMovieDetails(int id);
         IEnumerable<MovieCardModel> GetMoviesByGenre(int id);
-        PagedResultSet<MovieCardModel> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1);
+        PagedResultSet<MovieCardModel> GetMoviesByGenre(int genreId, int pageSize = 30, int pageIndex = 1, string sortBy = "title_asc");
     }
 }
