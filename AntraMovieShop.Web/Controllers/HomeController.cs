@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using AntraMovieShop.Web.Models;
+using AntraMovieShop.Web.ViewModels;
 using ApplicationCore.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 

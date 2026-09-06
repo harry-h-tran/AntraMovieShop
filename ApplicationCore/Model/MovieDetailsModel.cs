@@ -13,9 +13,12 @@
         public string Overview { get; set; } = string.Empty;
         public string PosterUrl { get; set; } = string.Empty;
         public decimal? Price { get; set; }
+        public decimal? Revenue { get; set; }
 
         // Need Reviews Score Average
-        public ICollection<GenreModel> Genres { get; set; } = new List<GenreModel>();
-        public ICollection<CastModel> Casts { get; set; } = new List<CastModel>();
+        public decimal? Rating { get; set; }
+        public ICollection<GenreModel> Genres { get; set; } = null!;
+        public ICollection<CastModel> Casts { get; set; } = null!;
+        public ICollection<TrailerModel> Trailers { get; set; } = null!;
     }
 }

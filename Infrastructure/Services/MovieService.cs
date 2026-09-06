@@ -34,6 +34,7 @@ namespace Infrastructure.Services
                 Overview = movie.Overview,
                 PosterUrl = movie.PosterUrl,
                 Price = movie.Price,
+                Revenue = movie.Revenue,
                 Genres = movie.Genres.Select(g => new GenreModel
                 {
                     Id = g.Genre.Id,
@@ -45,6 +46,13 @@ namespace Infrastructure.Services
                     Name = mc.Casts.Name,
                     CharacterName = mc.Character,
                     ProfilePath = mc.Casts.ProfilePath
+                }).ToList(),
+                Trailers = movie.Trailers.Select(t => new TrailerModel
+                {
+                    Id = t.Id,
+                    MovieId = t.MovieId,
+                    Name = t.Name,
+                    TrailerUrl = t.TrailerUrl
                 }).ToList()
             };
         }

@@ -29,6 +29,7 @@
         // UI-facing collections for Cast and Genre
         public List<GenreViewModel> Genres { get; set; } = new();
         public List<CastViewModel> Casts { get; set; } = new();
+        public List<TrailerViewModel> Trailers { get; set; } = new();
     }
 
     public class GenreViewModel
@@ -46,5 +47,14 @@
 
         // Visual helper for missing profile images
         public bool HasProfilePath => !string.IsNullOrEmpty(ProfilePath);
+    }
+
+    public class TrailerViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string TrailerUrl { get; set; } = string.Empty;
+        // Visual helper for missing trailer URLs
+        public bool HasTrailerUrl => !string.IsNullOrEmpty(TrailerUrl);
     }
 }

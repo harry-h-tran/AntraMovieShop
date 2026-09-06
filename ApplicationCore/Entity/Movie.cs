@@ -28,5 +28,7 @@ namespace ApplicationCore.Entity
 
         public ICollection<MovieCasts> Casts { get; set; } = new List<MovieCasts>();
 
+        public ICollection<Trailers> Trailers { get; set; } = new List<Trailers>();
+
     }
 }

@@ -15,6 +15,7 @@ namespace Infrastructure.Data
         public DbSet<MovieGenres> MovieGenres { get; set; }
         public DbSet<MovieCasts> MovieCasts { get; set; }
         public DbSet<Casts> Casts { get; set; }
+        public DbSet<Trailers> Trailers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -30,22 +31,25 @@ namespace Infrastructure.Data
                 .WithMany(m => m.Casts)
                 .HasForeignKey(mc => mc.MovieId);
 
-            // 2. Explicitly link the Cast side
             modelBuilder.Entity<MovieCasts>()
                 .HasOne(mc => mc.Casts)
                 .WithMany(c => c.Movies)
                 .HasForeignKey(mc => mc.CastId);
 
-
             modelBuilder.Entity<MovieCasts>()
-        .HasOne(mc => mc.Movie)
-        .WithMany(m => m.Casts)
-        .HasForeignKey(mc => mc.MovieId);
+                .HasOne(mc => mc.Movie)
+                .WithMany(m => m.Casts)
+                .HasForeignKey(mc => mc.MovieId);
 
             modelBuilder.Entity<MovieCasts>()
                 .HasOne(mc => mc.Casts)
                 .WithMany(c => c.Movies)
                 .HasForeignKey(mc => mc.CastId);
+
+            modelBuilder.Entity<Trailers>()
+                .HasOne(t => t.movie)
+                .WithMany(m => m.Trailers)
+                .HasForeignKey(t => t.MovieId);
         }
     }
 }

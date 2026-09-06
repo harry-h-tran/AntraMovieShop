@@ -91,9 +91,8 @@
                 @if (!string.IsNullOrEmpty(Model.ImdbUrl))
                 {
                     <li class="list-group-item d-flex align-items-center border-bottom px-0 py-2">
-                        <i class="bi bi-share me-2 text-muted"></i>
                         <a href="@Model.ImdbUrl" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-dark">
-                            <i class="bi bi-box-arrow-up-right"></i>
+                            IMDB<i class="bi bi-box-arrow-up-right"></i>
                         </a>
                     </li>
                 }
@@ -106,7 +105,7 @@
                     @foreach (var trailer in Model.Trailers)
                     {
                         <li class="mb-2">
-                            <a href="@trailer.Url" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+                            <a href="@trailer.TrailerUrl" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
                                 <i class="bi bi-youtube text-danger me-2 fs-6"></i>
                                 <span>@trailer.Name</span>
                             </a>
