@@ -1,4 +1,4 @@
-namespace AntraMovieShop.Web.Models
+namespace AntraMovieShop.Web.ViewModels
 {
     public class ErrorViewModel
     {

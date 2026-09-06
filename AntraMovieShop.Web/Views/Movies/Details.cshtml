@@ -1,24 +1,154 @@
-﻿@model MovieDetailsModel
+﻿@model MovieDetailsViewModel
 
-<h1>@Model.Title</h1>
-<p>Movie ID: @Model.Id</p>
-<p>Tagline: @Model.Tagline</p>
-<p>Overview: @Model.Overview</p>
-<p>Poster</p>
-<img src="@Model.PosterUrl" alt="Poster" />
-<p>Backdrop</p>
-<img src="@Model.BackdropUrl" alt="Backdrop" />
-<ul>Genres
-    @foreach (var genre in Model.Genres)
-    {
-        <li>@genre.Name</li>
-    }
-</ul>
+@{
+    ViewData["Title"] = Model.Title;
+}
 
-<p>Release Date: @Model.ReleaseDate</p>
-<ul>Cast
-    @foreach (var castMember in Model.Casts)
-    {
-        <li>@castMember.Name == @castMember.CharacterName</li>
-    }
-</ul>
+<!-- Top Hero Banner with Blurred/Dark Backdrop Overlay -->
+<div class="position-relative text-white" style="background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('@Model.BackdropUrl') center/cover no-repeat; min-height: 380px;">
+    <div class="container py-4">
+        <div class="row">
+            <!-- Poster Image -->
+            <div class="col-md-3 text-center text-md-start mb-3 mb-md-0">
+                <img src="@Model.PosterUrl" alt="@Model.Title" class="img-fluid rounded shadow-lg" style="max-height: 340px;" />
+            </div>
+
+            <!-- Movie Details & Action Buttons -->
+            <div class="col-md-9 d-flex flex-column justify-content-between">
+                <div>
+                    <!-- Title & Overview -->
+                    <h1 class="display-5 fw-bold text-white mb-1">@Model.Title</h1>
+
+                    @if (!string.IsNullOrEmpty(Model.Tagline))
+                    {
+                        <p class="text-secondary small mb-2">@Model.Tagline</p>
+                    }
+
+                    <!-- Runtime | Year | Genre Badges -->
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <span class="small text-light me-1">@Model.FormattedRuntime</span>
+                        <span class="text-secondary">|</span>
+                        <span class="small text-light me-2">@Model.ReleaseYear</span>
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <span class="badge rounded-pill bg-secondary bg-opacity-50 text-light fw-normal px-2 py-1 small">@genre.Name</span>
+                        }
+                    </div>
+
+                    <!-- Rating Badge -->
+                    <div class="mb-3">
+                        <span class="badge bg-success text-white fw-bold px-2 py-1 fs-6 rounded">
+                            @Model.Rating?.ToString("0.0")
+                        </span>
+                    </div>
+
+                    <p class="text-light opacity-75 small lh-base" style="max-width: 750px;">
+                        @Model.Overview
+                    </p>
+                </div>
+
+                <!-- Top Right Action Buttons -->
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <button type="button" class="btn btn-outline-light btn-sm px-3" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                        <i class="bi bi-box-arrow-up-right me-1"></i> REVIEW
+                    </button>
+                    <button type="button" class="btn btn-light btn-sm text-dark fw-bold px-4">
+                        BUY @Model.FormattedPrice
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Body Section -->
+<div class="container my-4">
+    <div class="row">
+        <!-- Left Sidebar: Movie Facts & Trailers -->
+        <div class="col-md-4 pe-md-4">
+            <h6 class="fw-bold text-uppercase text-muted mb-3 border-bottom pb-2">Movie Facts</h6>
+            <ul class="list-group list-group-flush small">
+                <li class="list-group-item d-flex align-items-center border-bottom px-0 py-2">
+                    <i class="bi bi-calendar-event me-2 text-muted"></i>
+                    <span class="me-auto">Release Date</span>
+                    <span class="badge rounded-pill bg-dark text-white px-2 py-1">@Model.FormattedReleaseDate</span>
+                </li>
+                <li class="list-group-item d-flex align-items-center border-bottom px-0 py-2">
+                    <i class="bi bi-hourglass-split me-2 text-muted"></i>
+                    <span class="me-auto">Run Time</span>
+                    <span class="badge rounded-pill bg-dark text-white px-2 py-1">@Model.FormattedRuntime</span>
+                </li>
+                <li class="list-group-item d-flex align-items-center border-bottom px-0 py-2">
+                    <i class="bi bi-wallet2 me-2 text-muted"></i>
+                    <span class="me-auto">Box Office</span>
+                    <span class="badge rounded-pill bg-dark text-white px-2 py-1">@Model.FormattedRevenue</span>
+                </li>
+                <li class="list-group-item d-flex align-items-center border-bottom px-0 py-2">
+                    <i class="bi bi-currency-dollar me-2 text-muted"></i>
+                    <span class="me-auto">Budget</span>
+                    <span class="badge rounded-pill bg-dark text-white px-2 py-1">@Model.FormattedBudget</span>
+                </li>
+                @if (!string.IsNullOrEmpty(Model.ImdbUrl))
+                {
+                    <li class="list-group-item d-flex align-items-center border-bottom px-0 py-2">
+                        <i class="bi bi-share me-2 text-muted"></i>
+                        <a href="@Model.ImdbUrl" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-dark">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
+
+            <h6 class="fw-bold text-uppercase text-muted mt-4 mb-3 border-bottom pb-2">Trailers</h6>
+            @if (Model.Trailers != null && Model.Trailers.Any())
+            {
+                <ul class="list-unstyled small">
+                    @foreach (var trailer in Model.Trailers)
+                    {
+                        <li class="mb-2">
+                            <a href="@trailer.Url" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-youtube text-danger me-2 fs-6"></i>
+                                <span>@trailer.Name</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="small text-muted">No trailers available.</p>
+            }
+        </div>
+
+        <!-- Right Column: Cast List -->
+        <div class="col-md-8 ps-md-4">
+            <h6 class="fw-bold text-uppercase text-muted mb-3 border-bottom pb-2">Cast</h6>
+            @if (Model.Casts != null && Model.Casts.Any())
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var cast in Model.Casts)
+                    {
+                        <li class="list-group-item d-flex align-items-center border-bottom px-0 py-2">
+                            <!-- Circular Avatar Image -->
+                            <img src="@cast.ProfilePath" alt="@cast.Name" class="rounded-circle me-3 object-fit-cover" style="width: 42px; height: 42px;" />
+
+                            <!-- Actor Name -->
+                            <div class="col-5">
+                                <span class="fw-normal text-dark small">@cast.Name</span>
+                            </div>
+
+                            <!-- Character Name -->
+                            <div class="col-5">
+                                <span class="text-muted small">@cast.Character</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="small text-muted">No cast information available.</p>
+            }
+        </div>
+    </div>
+</div>
