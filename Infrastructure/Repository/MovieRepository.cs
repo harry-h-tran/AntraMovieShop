@@ -16,13 +16,12 @@ namespace Infrastructure.Repository
         }
         public Movie? GetMovieByIdWithDetails(int id)
         {
-            return _dbContext.Movies
-                .Include(m => m.Genres)
-                    .ThenInclude(mg => mg.Genre)
-                .Include(m => m.Cast)
+            var movieWithCast = _dbContext.Movies
+                .Include(m => m.Casts)
                     .ThenInclude(mc => mc.Casts)
                 .AsNoTracking()
                 .FirstOrDefault(m => m.Id == id);
+            return movieWithCast;
         }
 
         public IEnumerable<Movie> GetTop30GrossingMovies()

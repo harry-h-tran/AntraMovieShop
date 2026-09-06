@@ -39,7 +39,7 @@ namespace Infrastructure.Services
                     Id = g.Genre.Id,
                     Name = g.Genre.Name
                 }).ToList(),
-                Casts = movie.Cast.Select(mc => new CastModel
+                Casts = movie.Casts.Select(mc => new CastModel
                 {
                     CastId = mc.CastId,
                     Name = mc.Casts.Name,

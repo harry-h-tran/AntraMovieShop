@@ -3,7 +3,7 @@
     public class Casts
     {
         public int Id { get; set; }
-        public int Gender { get; set; }
+        public string Gender { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string ProfilePath { get; set; } = string.Empty;
 

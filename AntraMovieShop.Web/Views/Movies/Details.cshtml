@@ -16,4 +16,9 @@
 </ul>
 
 <p>Release Date: @Model.ReleaseDate</p>
-<p></p>
+<ul>Cast
+    @foreach (var castMember in Model.Casts)
+    {
+        <li>@castMember.Name == @castMember.CharacterName</li>
+    }
+</ul>

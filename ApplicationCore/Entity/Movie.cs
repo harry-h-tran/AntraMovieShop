@@ -26,7 +26,7 @@ namespace ApplicationCore.Entity
 
         public ICollection<MovieGenres> Genres { get; set; } = new List<MovieGenres>();
 
-        public ICollection<MovieCasts> Cast { get; set; } = new List<MovieCasts>();
+        public ICollection<MovieCasts> Casts { get; set; } = new List<MovieCasts>();
 
     }
 }
