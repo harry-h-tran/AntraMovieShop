@@ -4,9 +4,17 @@ namespace AntraMovieShop.Web.Controllers
 {
     public class UserController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Purchases()
         {
-            return View();
+            return View("NotImplemented");
+        }
+        public IActionResult Account()
+        {
+            return View("NotImplemented");
+        }
+        public IActionResult Favorites()
+        {
+            return View("NotImplemented");
         }
     }
 }

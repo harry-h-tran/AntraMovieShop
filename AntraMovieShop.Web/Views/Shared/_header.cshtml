@@ -16,7 +16,7 @@
 
                 @if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("2"))
                     {
                         <!-- Admin Operations Dropdown -->
                         <div class="dropdown me-2">
@@ -33,22 +33,22 @@
                     <!-- Authenticated User Profile Menu -->
                     <div class="dropdown">
                         <button class="btn btn-outline-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            @User.Identity.Name
+                            @User.FindFirstValue(ClaimTypes.GivenName) @User.FindFirstValue(ClaimTypes.Surname)
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow" aria-labelledby="userMenu">
                             <li>
                                 <a class="dropdown-item" asp-controller="User" asp-action="Purchases">
-                                    Movies<i class="bi bi-film"></i>
+                                    Movies <i class="bi bi-film"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" asp-controller="User" asp-action="Favorites">
-                                    Favorites<i class="bi bi-star-fill"></i>
+                                    Favorites <i class="bi bi-star-fill"></i>
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" asp-controller="User" asp-action="Account">
-                                    Account<i class="bi bi-person-circle"></i>
+                                    Account <i class="bi bi-person-circle"></i>
                                 </a>
                             </li>
                             <li>

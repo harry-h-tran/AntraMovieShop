@@ -1,11 +1,10 @@
-﻿using ApplicationCore.Entity;
-using ApplicationCore.Model;
+﻿using ApplicationCore.Model;
 
 namespace ApplicationCore.Contracts.Services
 {
     public interface IUserService
     {
-        User RegisterUser(UserRegisterModel userRegisterModel);
-        User ValidateUser(UserLoginModel userLoginModel);
+        int RegisterUser(UserRegisterModel userRegisterModel);
+        UserLoginResponseModel ValidateUser(UserLoginRequestModel userLoginModel);
     }
 }

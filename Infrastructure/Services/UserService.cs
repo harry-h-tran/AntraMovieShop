@@ -20,7 +20,8 @@ namespace Infrastructure.Services
             var existingUser = _userRepository.GetUsersByEmail(userRegisterModel.Email);
             if (existingUser != null)
             {
-                throw new InvalidOperationException("User with this email already exists.");
+                // TODO: Implement Result Pattern: to return a meaningful error message instead of just returning -1
+                return -1;
             }
 
             string salt = _cryptoService.GenerateSalt();
@@ -46,12 +47,41 @@ namespace Infrastructure.Services
             {
                 return newUser.Id;
             }
-            throw new InvalidOperationException("Failed to register user.");
+
+            // TODO: Implement Result Pattern: to return a meaningful error message instead of just returning 0
+            // 
+            return 0;
+
         }
 
-        public Users ValidateUser(UserLoginModel userLoginModel)
+        public UserLoginResponseModel? ValidateUser(UserLoginRequestModel userLoginModel)
         {
-            throw new NotImplementedException();
+            var existingUser = _userRepository.GetUsersByEmail(userLoginModel.Email);
+            if (existingUser == null)
+            {
+                // TODO: Implement Result Pattern: to return a meaningful error message instead of just returning null
+                // No user Exists with the provided email
+                return null;
+            }
+
+            string userSalt = existingUser.Salt;
+            string hashedPassword = _cryptoService.HashPassword(userLoginModel.Password, userSalt);
+
+            if (hashedPassword == existingUser.HashedPassword)
+            {
+                return new UserLoginResponseModel
+                {
+                    Id = existingUser.Id,
+                    FirstName = existingUser.FirstName,
+                    LastName = existingUser.LastName,
+                    Email = existingUser.Email,
+                    RoleId = existingUser.UserRoles.RoleId
+                };
+            }
+
+            // TODO: Implement Result Pattern: to return a meaningful error message instead of just returning null
+            // Incorrect password
+            return null;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Contracts.Repository;
 using ApplicationCore.Entity;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
@@ -14,7 +15,10 @@ namespace Infrastructure.Repository
         }
         public Users? GetUsersByEmail(string email)
         {
-            return _dbContext.Users.FirstOrDefault(u => u.Email == email);
+            return _dbContext.Users
+                .Include(u => u.UserRoles)
+                    .ThenInclude(ur => ur.Role)
+                .FirstOrDefault(u => u.Email == email);
         }
     }
 }
