@@ -1,6 +1,9 @@
-﻿namespace ApplicationCore.Contracts.Repository
+﻿using ApplicationCore.Entity;
+
+namespace ApplicationCore.Contracts.Repository
 {
-    internal class IPurchaseRepository
+    public interface IPurchaseRepository : IRepository<Purchases>
     {
+        IEnumerable<Purchases> GetPurchasesByUserId(int userId);
     }
 }

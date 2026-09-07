@@ -19,6 +19,7 @@ builder.Services.AddDbContext<MovieShopDbContext>(options =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
 
 // Services
 builder.Services.AddScoped<IMovieService, MovieService>();

@@ -16,5 +16,6 @@
         // Navigation properties
         public UserRoles UserRoles { get; set; } = null!;
         public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
+        public ICollection<Purchases> Purchases { get; set; } = new List<Purchases>();
     }
 }

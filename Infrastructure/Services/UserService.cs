@@ -9,11 +9,14 @@ namespace Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ICryptoService _cryptoService;
+        private readonly IPurchaseRepository _purchaseRepository;
 
-        public UserService(IUserRepository userRepository, ICryptoService cryptoService)
+        public UserService(IUserRepository userRepository, ICryptoService cryptoService,
+            IPurchaseRepository purchaseRepository)
         {
             _userRepository = userRepository;
             _cryptoService = cryptoService;
+            _purchaseRepository = purchaseRepository;
         }
         public int RegisterUser(UserRegisterModel userRegisterModel)
         {
@@ -82,6 +85,22 @@ namespace Infrastructure.Services
             // TODO: Implement Result Pattern: to return a meaningful error message instead of just returning null
             // Incorrect password
             return null;
+        }
+
+        public IEnumerable<MovieCardModel> GetPurchasedMovies(int userId)
+        {
+            var purchases = _purchaseRepository.GetPurchasesByUserId(userId);
+            var purchasedMovies = new List<MovieCardModel>();
+            foreach (var purchase in purchases)
+            {
+                purchasedMovies.Add(new MovieCardModel
+                {
+                    Id = purchase.Movie.Id,
+                    Title = purchase.Movie.Title,
+                    PosterUrl = purchase.Movie.PosterUrl
+                });
+            }
+            return purchasedMovies;
         }
     }
 }
