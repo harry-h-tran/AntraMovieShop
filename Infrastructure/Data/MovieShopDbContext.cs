@@ -16,25 +16,21 @@ namespace Infrastructure.Data
         public DbSet<MovieCasts> MovieCasts { get; set; }
         public DbSet<Casts> Casts { get; set; }
         public DbSet<Trailers> Trailers { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<UserRoles> UserRoles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // MovieGenres Composite Key & Relationships
+
             modelBuilder.Entity<MovieGenres>()
                 .HasKey(mg => new { mg.MovieId, mg.GenreId });
 
             modelBuilder.Entity<MovieCasts>()
                 .HasKey(mc => new { mc.MovieId, mc.CastId });
 
-            modelBuilder.Entity<MovieCasts>()
-                .HasOne(mc => mc.Movie)
-                .WithMany(m => m.Casts)
-                .HasForeignKey(mc => mc.MovieId);
-
-            modelBuilder.Entity<MovieCasts>()
-                .HasOne(mc => mc.Casts)
-                .WithMany(c => c.Movies)
-                .HasForeignKey(mc => mc.CastId);
+            modelBuilder.Entity<UserRoles>()
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
 
             modelBuilder.Entity<MovieCasts>()
                 .HasOne(mc => mc.Movie)
@@ -50,6 +46,7 @@ namespace Infrastructure.Data
                 .HasOne(t => t.movie)
                 .WithMany(m => m.Trailers)
                 .HasForeignKey(t => t.MovieId);
+
         }
     }
 }

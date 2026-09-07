@@ -1,6 +1,9 @@
-﻿namespace ApplicationCore.Contracts.Repository
+﻿using ApplicationCore.Entity;
+
+namespace ApplicationCore.Contracts.Repository
 {
-    internal class IUserRepository
+    public interface IUserRepository : IRepository<Users>
     {
+        Users? GetUsersByEmail(string email);
     }
 }
