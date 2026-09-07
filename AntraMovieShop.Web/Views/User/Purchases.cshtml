@@ -1,1 +1,7 @@
-﻿
+﻿@model PagedResultSet<MovieCardModel>
+
+@{
+    ViewData["Title"] = "Purchases";
+}
+
+<partial name="_PaginatedMovieCard" model="Model" />

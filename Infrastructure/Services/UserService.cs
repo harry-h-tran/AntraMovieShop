@@ -87,20 +87,24 @@ namespace Infrastructure.Services
             return null;
         }
 
-        public IEnumerable<MovieCardModel> GetPurchasedMovies(int userId)
+        public PagedResultSet<MovieCardModel> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageIndex = 1)
         {
-            var purchases = _purchaseRepository.GetPurchasesByUserId(userId);
-            var purchasedMovies = new List<MovieCardModel>();
-            foreach (var purchase in purchases)
+            var purchases = _purchaseRepository.GetPurchasesByUserId(userId, pageSize, pageIndex);
+            var purchasedMoviesCards = purchases.results.Select(purchase => new MovieCardModel
             {
-                purchasedMovies.Add(new MovieCardModel
-                {
-                    Id = purchase.Movie.Id,
-                    Title = purchase.Movie.Title,
-                    PosterUrl = purchase.Movie.PosterUrl
-                });
-            }
-            return purchasedMovies;
+                Id = purchase.Id,
+                Title = purchase.Title,
+                PosterUrl = purchase.PosterUrl
+            }).ToList();
+
+            return new PagedResultSet<MovieCardModel>
+            {
+                results = purchasedMoviesCards,
+                PageIndex = purchases.PageIndex,
+                PageSize = purchases.PageSize,
+                TotalPages = purchases.TotalPages,
+                TotalResults = purchases.TotalResults
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Contracts.Repository;
 using ApplicationCore.Entity;
+using ApplicationCore.Model;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,12 +15,29 @@ namespace Infrastructure.Repository
             _dbContext = context;
         }
 
-        public IEnumerable<Purchases> GetPurchasesByUserId(int userId)
+        public PagedResultSet<Movie> GetPurchasesByUserId(int userId, int pageSize = 30, int pageIndex = 1)
         {
-            return _dbContext.Purchases
+            var query = _dbContext.Purchases
                 .Include(p => p.Movie)
-                .Where(p => p.UserId == userId)
+                .Where(p => p.UserId == userId);
+
+            var totalPurchases = query.Count();
+
+            query = query.OrderByDescending(p => p.PurchaseDateTime);
+
+            var purchasedMovies = query
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
+
+            return new PagedResultSet<Movie>
+            {
+                results = purchasedMovies.Select(p => p.Movie).ToList(),
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling(totalPurchases / (double)pageSize),
+                TotalResults = totalPurchases
+            };
         }
     }
 }
