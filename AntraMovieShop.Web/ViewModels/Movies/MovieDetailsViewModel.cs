@@ -18,6 +18,8 @@
         public string FormattedBudget { get; set; } = string.Empty;
         public string FormattedRevenue { get; set; } = string.Empty;
         public string FormattedPrice { get; set; } = string.Empty;
+        public string FormattedRating { get; set; } = string.Empty;
+
 
         // UI Flags
         public bool HasBackdrop => !string.IsNullOrEmpty(BackdropUrl);
@@ -25,6 +27,8 @@
         public bool HasImdbLink => !string.IsNullOrEmpty(ImdbUrl);
         public bool HasCast => Casts.Any();
         public bool HasGenres => Genres.Any();
+        public bool HasPrice => !string.IsNullOrEmpty(FormattedPrice);
+        public bool HasReviews => Rating.HasValue;
 
         // UI-facing collections for Cast and Genre
         public List<GenreViewModel> Genres { get; set; } = new();

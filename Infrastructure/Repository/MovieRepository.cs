@@ -22,6 +22,7 @@ namespace Infrastructure.Repository
                 .Include(m => m.Casts)
                     .ThenInclude(mc => mc.Casts)
                 .Include(m => m.Trailers)
+                .Include(m => m.Reviews)
                 .AsNoTracking()
                 .FirstOrDefault(m => m.Id == id);
             return movieWithDetails;

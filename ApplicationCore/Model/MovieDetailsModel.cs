@@ -14,8 +14,6 @@
         public string PosterUrl { get; set; } = string.Empty;
         public decimal? Price { get; set; }
         public decimal? Revenue { get; set; }
-
-        // Need Reviews Score Average
         public decimal? Rating { get; set; }
         public ICollection<GenreModel> Genres { get; set; } = null!;
         public ICollection<CastModel> Casts { get; set; } = null!;

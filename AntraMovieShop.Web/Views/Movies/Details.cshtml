@@ -38,7 +38,7 @@
                     <!-- Rating Badge -->
                     <div class="mb-3">
                         <span class="badge bg-success text-white fw-bold px-2 py-1 fs-6 rounded">
-                            @Model.Rating?.ToString("No Reviews")
+                            @Model.FormattedRating
                         </span>
                     </div>
 
@@ -52,8 +52,8 @@
                     <button type="button" class="btn btn-outline-light btn-sm px-3" data-bs-toggle="modal" data-bs-target="#reviewModal" disabled>
                         <i class="bi bi-box-arrow-up-right me-1"></i> REVIEW
                     </button>
-                    <button type="button" class="btn btn-light btn-sm text-dark fw-bold px-4">
-                        BUY @Model.FormattedPrice
+                    <button type="button" class="btn btn-light btn-sm text-dark fw-bold px-4" @(!Model.HasPrice ? "disabled" : null) )>
+                        @Model.FormattedPrice
                     </button>
                 </div>
             </div>

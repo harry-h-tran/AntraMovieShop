@@ -13,6 +13,8 @@
         public string? PhoneNumber { get; set; }
         public string? ProfilePictureUrl { get; set; }
 
+        // Navigation properties
         public UserRoles UserRoles { get; set; } = null!;
+        public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
     }
 }

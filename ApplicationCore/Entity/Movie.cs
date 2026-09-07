@@ -24,11 +24,12 @@ namespace ApplicationCore.Entity
         public string? UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
+
+        // Navigation properties
         public ICollection<MovieGenres> Genres { get; set; } = new List<MovieGenres>();
-
         public ICollection<MovieCasts> Casts { get; set; } = new List<MovieCasts>();
-
         public ICollection<Trailers> Trailers { get; set; } = new List<Trailers>();
+        public ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
 
     }
 }

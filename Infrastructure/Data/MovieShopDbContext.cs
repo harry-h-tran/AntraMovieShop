@@ -19,6 +19,7 @@ namespace Infrastructure.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
+        public DbSet<Reviews> Reviews { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -31,6 +32,9 @@ namespace Infrastructure.Data
 
             modelBuilder.Entity<UserRoles>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            modelBuilder.Entity<Reviews>()
+                .HasKey(r => new { r.MovieId, r.UserId });
 
             modelBuilder.Entity<MovieCasts>()
                 .HasOne(mc => mc.Movie)

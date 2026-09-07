@@ -50,7 +50,10 @@ namespace AntraMovieShop.Web.Controllers
                     : "N/A",
                 FormattedPrice = movieDetails.Price.HasValue
                     ? movieDetails.Price.Value.ToString("C2")
-                    : "N/A",
+                    : "Not Available",
+                FormattedRating = movieDetails.Rating.HasValue
+                    ? movieDetails.Rating.Value.ToString("0.0")
+                    : "No Reviews Yet",
 
                 // Map Genre, Cast and Trailer DTO collections
                 Genres = movieDetails.Genres.Select(g => new GenreViewModel

@@ -21,6 +21,12 @@ namespace Infrastructure.Services
                 return null;
             }
 
+            decimal? averageRating = null;
+            if (movie.Reviews.Count() > 0)
+            {
+                averageRating = movie.Reviews.Average(r => r.Rating);
+            }
+
             return new MovieDetailsModel
             {
                 Id = movie.Id,
@@ -35,6 +41,7 @@ namespace Infrastructure.Services
                 PosterUrl = movie.PosterUrl,
                 Price = movie.Price,
                 Revenue = movie.Revenue,
+                Rating = averageRating,
                 Genres = movie.Genres.Select(g => new GenreModel
                 {
                     Id = g.Genre.Id,

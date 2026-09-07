@@ -38,7 +38,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromHours(24);
     });
 
+
+
 var app = builder.Build();
+
+// Intercept 404s and redirect to the home page
+app.UseStatusCodePagesWithReExecute("/Home/NotFoundPage");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

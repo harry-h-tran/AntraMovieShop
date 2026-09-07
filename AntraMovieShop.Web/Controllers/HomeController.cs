@@ -19,9 +19,11 @@ namespace AntraMovieShop.Web.Controllers
             return View(movieCards);
         }
 
-        public IActionResult Privacy()
+        [Route("Home/NotFoundPage")]
+        public IActionResult NotFoundPage()
         {
-            return View();
+            // Renders Views/Shared/NotFoundPage.cshtml
+            return View("NotFoundPage");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
