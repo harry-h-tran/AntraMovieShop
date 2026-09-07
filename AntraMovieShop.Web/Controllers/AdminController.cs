@@ -4,9 +4,13 @@ namespace AntraMovieShop.Web.Controllers
 {
     public class AdminController : Controller
     {
-        public IActionResult Index()
+        public IActionResult CreateMovie()
         {
-            return View();
+            return View("NotImplemented");
+        }
+        public IActionResult CreateCast()
+        {
+            return View("NotImplemented");
         }
     }
 }
