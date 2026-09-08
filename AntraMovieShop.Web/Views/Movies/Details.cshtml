@@ -52,7 +52,7 @@
                     <button type="button" class="btn btn-outline-light btn-sm px-3" data-bs-toggle="modal" data-bs-target="#reviewModal" disabled>
                         <i class="bi bi-box-arrow-up-right me-1"></i> REVIEW
                     </button>
-                    <button type="button" class="btn btn-light btn-sm text-dark fw-bold px-4" @(!Model.HasPrice ? "disabled" : null) )>
+                    <button type="button" class="btn btn-light btn-sm text-dark fw-bold px-4" disabled=@(Model.HasPrice ? "" : "disabled")>
                         @Model.FormattedPrice
                     </button>
                 </div>

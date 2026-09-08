@@ -5,6 +5,8 @@ namespace ApplicationCore.Contracts.Repository
 {
     public interface IPurchaseRepository : IRepository<Purchases>
     {
-        PagedResultSet<Movie> GetPurchasesByUserId(int userId, int pageSize = 30, int pageIndex = 1);
+        PagedResultSet<Purchases> GetPurchasesByUserId(int userId, int pageSize = 30, int pageIndex = 1);
+
+        PagedResultSet<Purchases> GetAllPurchasesForTopMoviesReport(DateTime? fromDate, DateTime? toDate, int pageSize = 30, int pageIndex = 1);
     }
 }

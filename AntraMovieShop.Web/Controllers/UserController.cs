@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Contracts.Services;
+﻿using System.Security.Claims;
+using ApplicationCore.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntraMovieShop.Web.Controllers
@@ -13,8 +14,15 @@ namespace AntraMovieShop.Web.Controllers
         }
         public IActionResult Purchases()
         {
-            var MovieCards = _userService.GetAllPurchasesForUser(1);
-            return View(MovieCards);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var purchases = _userService.GetAllPurchasesForUser(int.Parse(userId));
+            return View(purchases);
         }
         public IActionResult Account()
         {

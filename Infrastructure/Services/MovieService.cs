@@ -33,7 +33,7 @@ namespace Infrastructure.Services
                 Title = movie.Title,
                 Tagline = movie.Tagline,
                 RunTime = movie.RunTime,
-                ReleaseDate = DateOnly.FromDateTime(movie.ReleaseDate ?? DateTime.MinValue),
+                ReleaseDate = movie.ReleaseDate ?? DateTime.MinValue,
                 BackdropUrl = movie.BackdropUrl,
                 Budget = movie.Budget,
                 ImdbUrl = movie.ImdbUrl,

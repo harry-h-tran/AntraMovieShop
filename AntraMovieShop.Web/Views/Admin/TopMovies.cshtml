@@ -1,0 +1,131 @@
+﻿@model TopMoviesReportViewModel
+
+@{
+    ViewData["Title"] = "Top Movies";
+}
+
+<div class="container-fluid mt-3">
+    <!-- Header Title -->
+    <h2 class="fw-normal mb-3">Top Movies</h2>
+
+    <!-- Date Range Filter Bar -->
+    <div class="card bg-light border-0 mb-4">
+        <div class="card-body py-2">
+            <form asp-controller="Admin" asp-action="TopMovies" method="get" class="row g-2 align-items-center justify-content-center">
+                <div class="col-auto">
+                    <label asp-for="FromDate" class="col-form-label fw-medium text-secondary">From date</label>
+                </div>
+                <div class="col-auto">
+                    <input asp-for="FromDate" type="date" class="form-control form-control-sm" />
+                </div>
+
+                <div class="col-auto ms-3">
+                    <label asp-for="ToDate" class="col-form-label fw-medium text-secondary">To Date</label>
+                </div>
+                <div class="col-auto">
+                    <input asp-for="ToDate" type="date" class="form-control form-control-sm" />
+                </div>
+
+                <div class="col-auto ms-2">
+                    <button type="submit" class="btn btn-primary btn-sm px-3">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Top Movies Data Table -->
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle border">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" style="width: 5%;">#</th>
+                    <th scope="col" style="width: 75%;">Title</th>
+                    <th scope="col" class="text-start" style="width: 20%;">Total Purchases</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.TopMovies != null && Model.TopMovies.Any())
+                {
+                    foreach (var movie in Model.TopMovies)
+                    {
+                        <tr>
+                            <td class="text-secondary fs-7">@movie.Rank</td>
+                            <td>
+                                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.MovieId" class="text-decoration-none text-dark fw-medium">
+                                    @movie.Title
+                                </a>
+                            </td>
+                            <td class="fw-bold fs-6">@movie.TotalPurchases</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-4">No purchases found for the selected date range.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Top Movies pagination" class="mt-4">
+            <ul class="pagination pagination-sm mb-0">
+                <!-- First Page -->
+                <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="TopMovies" 
+                       asp-route-pageIndex="1" 
+                       asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" 
+                       asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")">&laquo;&laquo;</a>
+                </li>
+                <!-- Previous Page -->
+                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="TopMovies" 
+                       asp-route-pageIndex="@(Model.PageIndex - 1)" 
+                       asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" 
+                       asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")">&laquo;</a>
+                </li>
+
+                <!-- Page Numbers -->
+                @for (int i = 1; i <= Math.Min(5, Model.TotalPages); i++)
+                {
+                    <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                        <a class="page-link" asp-action="TopMovies" 
+                           asp-route-pageIndex="@i" 
+                           asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" 
+                           asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")">@i</a>
+                    </li>
+                }
+
+                @if (Model.TotalPages > 5)
+                {
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    <li class="page-item @(Model.PageIndex == Model.TotalPages ? "active" : "")">
+                        <a class="page-link" asp-action="TopMovies" 
+                           asp-route-pageIndex="@Model.TotalPages" 
+                           asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" 
+                           asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")">@Model.TotalPages</a>
+                    </li>
+                }
+
+                <!-- Next Page -->
+                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="TopMovies" 
+                       asp-route-pageIndex="@(Model.PageIndex + 1)" 
+                       asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" 
+                       asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")">&raquo;</a>
+                </li>
+                <!-- Last Page -->
+                <li class="page-item @(Model.PageIndex == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="TopMovies" 
+                       asp-route-pageIndex="@Model.TotalPages" 
+                       asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")" 
+                       asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")">&raquo;&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>

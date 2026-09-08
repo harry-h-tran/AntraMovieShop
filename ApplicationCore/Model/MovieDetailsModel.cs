@@ -6,7 +6,7 @@
         public string Title { get; set; } = string.Empty;
         public string Tagline { get; set; } = string.Empty;
         public int? RunTime { get; set; }
-        public DateOnly ReleaseDate { get; set; }
+        public DateTime ReleaseDate { get; set; }
         public string BackdropUrl { get; set; } = string.Empty;
         public decimal? Budget { get; set; }
         public string ImdbUrl { get; set; } = string.Empty;

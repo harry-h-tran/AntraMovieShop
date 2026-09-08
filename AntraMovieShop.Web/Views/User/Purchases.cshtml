@@ -1,7 +1,134 @@
-﻿@model PagedResultSet<MovieCardModel>
-
+﻿@model PagedResultSet<UserPurchasesModel>
 @{
-    ViewData["Title"] = "Purchases";
+    ViewData["Title"] = "User Purchases";
 }
 
-<partial name="_PaginatedMovieCard" model="Model" />
+<div class="container py-4">
+    <h2 class="mb-4">Purchased Movies</h2>
+
+    @if (!Model.results.Any())
+    {
+        <div class="alert alert-info text-center" role="alert">
+            <p class="mb-0">You have not purchased any movies yet.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6 g-3">
+            @foreach (var purchase in Model.results)
+            {
+                var modalId = $"purchaseModal-{purchase.PurchaseNumber}";
+
+                <div class="col">
+                    <div class="card h-100 bg-dark text-white border-secondary shadow-sm">
+                        <!-- Poster Image -->
+                        <partial name="_MovieCard" model="purchase.MovieCard" />
+
+                        <!-- Purchase Details Trigger Bar -->
+                        <button type="button" 
+                                class="btn btn-secondary rounded-0 rounded-bottom w-100 btn-sm py-2" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#@modalId">
+                            Purchase Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Component for Each Purchase -->
+                <div class="modal fade text-dark" id="@modalId" tabindex="-1" aria-labelledby="@(modalId)Label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title fw-bold" id="@(modalId)Label">Purchase Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3 align-items-center">
+                                    <!-- Poster Preview -->
+                                    <div class="col-4">
+                                        <img src="@purchase.MovieCard.PosterUrl" class="img-fluid rounded shadow-sm" alt="@purchase.MovieCard.Title" />
+                                    </div>
+
+                                    <!-- Purchase Info List -->
+                                    <div class="col-8">
+                                        <div class="mb-3">
+                                            <span class="text-secondary small d-block mb-1">
+                                                <i class="bi bi-calendar-event me-1"></i> Purchased Date
+                                            </span>
+                                            <span class="badge bg-dark fs-6 font-monospace fw-normal">
+                                                @purchase.PurchaseDate.ToString("MMM dd, yyyy")
+                                            </span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="text-secondary small d-block mb-1">
+                                                <i class="bi bi-tag me-1"></i> Price
+                                            </span>
+                                            <span class="badge bg-dark fs-6 font-monospace fw-normal">
+                                                @purchase.Price.ToString("C")
+                                            </span>
+                                        </div>
+
+                                        <div>
+                                            <span class="text-secondary small d-block mb-1">
+                                                <i class="bi bi-check-circle me-1"></i> Purchase Number
+                                            </span>
+                                            <span class="badge bg-dark fs-6 font-monospace fw-normal text-wrap text-break">
+                                                @purchase.PurchaseNumber
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+<!-- Pagination Controls -->
+<nav aria-label="Page navigation" class="mt-3">
+    <ul class="pagination pagination-sm justify-content-start">
+
+        <!-- First Page (<<) -->
+        <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+            <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="1" asp-route-sortBy="@ViewBag.CurrentSort">&laquo;</a>
+        </li>
+
+        <!-- Previous Page (<) -->
+        <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+            <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-sortBy="@ViewBag.CurrentSort">&lsaquo;</a>
+        </li>
+
+        <!-- First Few Pages (1, 2, 3, 4, 5) -->
+        @for (int i = 1; i <= Math.Min(5, Model.TotalPages); i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@i" asp-route-sortBy="@ViewBag.CurrentSort">@i</a>
+            </li>
+        }
+
+        <!-- Ellipsis (...) if total pages exceed displayed limit -->
+        @if (Model.TotalPages > 5)
+        {
+            <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+
+            <!-- Last Page Number (e.g., 69) -->
+            <li class="page-item @(Model.PageIndex == Model.TotalPages ? "active" : "")">
+                <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@Model.TotalPages" asp-route-sortBy="@ViewBag.CurrentSort">@Model.TotalPages</a>
+            </li>
+        }
+
+        <!-- Next Page (>) -->
+        <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+            <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-sortBy="@ViewBag.CurrentSort">&rsaquo;</a>
+        </li>
+
+        <!-- Last Page (>>) -->
+        <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+            <a class="page-link" asp-controller="Movies" asp-action="Genre" asp-route-id="@ViewBag.GenreId" asp-route-pageNumber="@Model.TotalPages" asp-route-sortBy="@ViewBag.CurrentSort">&raquo;</a>
+        </li>
+
+    </ul>
+</nav>

@@ -1,6 +1,9 @@
-﻿namespace ApplicationCore.Contracts.Services
+﻿using ApplicationCore.Model;
+
+namespace ApplicationCore.Contracts.Services
 {
-    internal interface IAdminService
+    public interface IAdminService
     {
+        PagedResultSet<TopMoviesModel> GetTopMovies(DateTime? fromDate, DateTime? toDate);
     }
 }

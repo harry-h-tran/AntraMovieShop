@@ -34,7 +34,7 @@ namespace Infrastructure.Services
             {
                 FirstName = userRegisterModel.FirstName,
                 LastName = userRegisterModel.LastName,
-                DateOfBirth = userRegisterModel.DateOfBirth.ToDateTime(TimeOnly.MinValue),
+                DateOfBirth = userRegisterModel.DateOfBirth.Date,
                 Email = userRegisterModel.Email,
                 HashedPassword = hashedPassword,
                 Salt = salt,
@@ -87,17 +87,23 @@ namespace Infrastructure.Services
             return null;
         }
 
-        public PagedResultSet<MovieCardModel> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageIndex = 1)
+        public PagedResultSet<UserPurchasesModel> GetAllPurchasesForUser(int userId, int pageSize = 30, int pageIndex = 1)
         {
             var purchases = _purchaseRepository.GetPurchasesByUserId(userId, pageSize, pageIndex);
-            var purchasedMoviesCards = purchases.results.Select(purchase => new MovieCardModel
+            var purchasedMoviesCards = purchases.results.Select(purchase => new UserPurchasesModel
             {
-                Id = purchase.Id,
-                Title = purchase.Title,
-                PosterUrl = purchase.PosterUrl
+                PurchaseNumber = purchase.PurchaseNumber,
+                Price = purchase.TotalPrice,
+                PurchaseDate = purchase.PurchaseDateTime.Date,
+                MovieCard = new MovieCardModel
+                {
+                    Id = purchase.Movie.Id,
+                    Title = purchase.Movie.Title,
+                    PosterUrl = purchase.Movie.PosterUrl
+                }
             }).ToList();
 
-            return new PagedResultSet<MovieCardModel>
+            return new PagedResultSet<UserPurchasesModel>
             {
                 results = purchasedMoviesCards,
                 PageIndex = purchases.PageIndex,

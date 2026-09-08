@@ -15,7 +15,7 @@ namespace Infrastructure.Repository
             _dbContext = context;
         }
 
-        public PagedResultSet<Movie> GetPurchasesByUserId(int userId, int pageSize = 30, int pageIndex = 1)
+        public PagedResultSet<Purchases> GetPurchasesByUserId(int userId, int pageSize = 30, int pageIndex = 1)
         {
             var query = _dbContext.Purchases
                 .Include(p => p.Movie)
@@ -30,13 +30,46 @@ namespace Infrastructure.Repository
                 .Take(pageSize)
                 .ToList();
 
-            return new PagedResultSet<Movie>
+            return new PagedResultSet<Purchases>
             {
-                results = purchasedMovies.Select(p => p.Movie).ToList(),
+                results = purchasedMovies,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 TotalPages = (int)Math.Ceiling(totalPurchases / (double)pageSize),
                 TotalResults = totalPurchases
+            };
+        }
+
+        public PagedResultSet<Purchases> GetAllPurchasesForTopMoviesReport(DateTime? fromDate, DateTime? toDate, int pageSize = 30, int pageIndex = 1)
+        {
+            var query = _dbContext.Purchases
+                .Include(p => p.Movie)
+                .AsNoTracking();
+
+            var totalMovies = query.Count();
+
+            if (fromDate.HasValue)
+            {
+                query = query.Where(p => p.PurchaseDateTime >= fromDate.Value);
+            }
+
+            if (toDate.HasValue)
+            {
+                query = query.Where(p => p.PurchaseDateTime <= toDate.Value);
+            }
+
+            var purchasedMovies = query
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return new PagedResultSet<Purchases>
+            {
+                results = purchasedMovies,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling(totalMovies / (double)pageSize),
+                TotalResults = totalMovies
             };
         }
     }
