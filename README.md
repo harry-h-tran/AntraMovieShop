@@ -1,46 +1,46 @@
 # HomePage:
-![Home Page Screenshot]("../assets/homepage.PNG")
+![Home Page Screenshot]("../Assets/homepage.PNG")
 
 --
 # Login:
-![Home Page Screenshot]("./assets/login.png")
+![Home Page Screenshot]("./Assets/login.PNG")
 
 --
 # Register:
-![Home Page Screenshot]("./assets/register.png")
+![Home Page Screenshot]("./Assets/register.PNG")
 
 --
 # Admin Post Login:
-![Home Page Screenshot]("./assets/admin.png")
+![Home Page Screenshot]("./Assets/admin.PNG")
 
 --
 # Regular User Post Login:
-![Home Page Screenshot]("./assets/user.png")
+![Home Page Screenshot]("./Assets/user.PNG")
 
 --
 # Genres:
-![Home Page Screenshot]("./assets/genres.png")
+![Home Page Screenshot]("./Assets/genres.PNG")
 
 --
 # Movies by Genre:
-![Home Page Screenshot]("./assets/moviesByGenre.png")
+![Home Page Screenshot]("./Assets/moviesByGenre.PNG")
 
 --
 # Movie Details:
-![Home Page Screenshot]("./assets/movieDetails.png")
+![Home Page Screenshot]("./Assets/movieDetails.PNG")
 
 --
 # Movie Details When Purchased:
-![Home Page Screenshot]("./assets/purchasedMovieDetails.png")
+![Home Page Screenshot]("./Assets/purchasedMovieDetails.PNG")
 
 --
 # User Purchases:
-![Home Page Screenshot]("./assets/userPurchases.png")
+![Home Page Screenshot]("./Assets/userPurchases.PNG")
 
 --
 # Purchase Details:
-![Home Page Screenshot]("./assets/purchaseDetails.png")
+![Home Page Screenshot]("./Assets/purchaseDetails.PNG")
 
 --
 # Top Purchased Movies for Admin:
-![Home Page Screenshot]("./assets/topPurchasedMovies.png")
+![Home Page Screenshot]("./Assets/topPurchasedMovies.PNG")
