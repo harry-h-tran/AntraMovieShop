@@ -14,7 +14,7 @@ namespace Infrastructure.Repository
         {
             _dbContext = context;
         }
-        public Movie? GetMovieByIdWithDetails(int id)
+        public Movie? GetMovieByIdWithDetails(int movieId)
         {
             var movieWithDetails = _dbContext.Movies
                 .Include(m => m.Genres)
@@ -24,7 +24,7 @@ namespace Infrastructure.Repository
                 .Include(m => m.Trailers)
                 .Include(m => m.Reviews)
                 .AsNoTracking()
-                .FirstOrDefault(m => m.Id == id);
+                .FirstOrDefault(m => m.Id == movieId);
             return movieWithDetails;
         }
 

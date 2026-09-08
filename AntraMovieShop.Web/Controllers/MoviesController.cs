@@ -1,4 +1,5 @@
-﻿using AntraMovieShop.Web.ViewModels.Movies;
+﻿using System.Security.Claims;
+using AntraMovieShop.Web.ViewModels.Movies;
 using ApplicationCore.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,18 @@ namespace AntraMovieShop.Web.Controllers
 
         public IActionResult Details(int id)
         {
-            var movieDetails = _movieService.GetMovieDetails(id);
+            int? userId = null;
+
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                // Extract User ID from Claims
+                if (int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int parsedId))
+                {
+                    userId = parsedId;
+                }
+            }
+
+            var movieDetails = _movieService.GetMovieDetails(id, userId);
             if (movieDetails == null)
             {
                 return NotFound();
@@ -35,6 +47,8 @@ namespace AntraMovieShop.Web.Controllers
                 PosterUrl = movieDetails.PosterUrl ?? "/images/default-poster.png",
                 BackdropUrl = movieDetails.BackdropUrl,
                 Rating = movieDetails.Rating,
+                IsUserAuthenticated = movieDetails.IsUserAuthenticated,
+                IsPurchased = movieDetails.IsPurchased,
 
                 // Conversions & Formatting
                 ReleaseYear = movieDetails.ReleaseDate.Year.ToString() ?? string.Empty,

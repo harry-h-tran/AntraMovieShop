@@ -52,9 +52,33 @@
                     <button type="button" class="btn btn-outline-light btn-sm px-3" data-bs-toggle="modal" data-bs-target="#reviewModal" disabled>
                         <i class="bi bi-box-arrow-up-right me-1"></i> REVIEW
                     </button>
-                    <button type="button" class="btn btn-light btn-sm text-dark fw-bold px-4" disabled=@(Model.HasPrice ? "" : "disabled")>
-                        @Model.FormattedPrice
-                    </button>
+
+                    @if (!Model.IsUserAuthenticated)
+                    {
+                        <!-- State 1: Anonymous User -> Direct to Login/Register -->
+                        <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path"
+                           class="btn btn-primary btn-lg">
+                            Log in to Buy (@Model.FormattedPrice)
+                        </a>
+                    }
+                    else if (Model.IsPurchased)
+                    {
+                        <!-- State 2: Logged In & Already Purchased -> Watch / Owned -->
+                        <div class="d-flex align-items-center gap-2">
+                            <a asp-controller="User" asp-action="Watch" asp-route-id="@Model.Id"
+                               class="btn btn-success btn-lg">
+                                <i class="bi bi-play-fill"></i> Watch Movie
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- State 3: Logged In & Not Purchased -> Buy / Modal Trigger -->
+                        <button type="button" class="btn btn-primary btn-lg"
+                                data-bs-toggle="modal" data-bs-target="#purchaseModal">
+                            Buy Movie (@Model.FormattedPrice)
+                        </button>
+                    }
                 </div>
             </div>
         </div>

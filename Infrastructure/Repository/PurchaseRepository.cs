@@ -72,5 +72,12 @@ namespace Infrastructure.Repository
                 TotalResults = totalMovies
             };
         }
+
+        public bool IsMoviePurchasedByUser(int movieId, int userId)
+        {
+            return _dbContext.Purchases
+                .AsNoTracking()
+                .Any(p => p.UserId == userId && p.MovieId == movieId);
+        }
     }
 }

@@ -20,6 +20,9 @@
         public string FormattedPrice { get; set; } = string.Empty;
         public string FormattedRating { get; set; } = string.Empty;
 
+        // User State Flags
+        public bool IsUserAuthenticated { get; set; }
+        public bool IsPurchased { get; set; }
 
         // UI Flags
         public bool HasBackdrop => !string.IsNullOrEmpty(BackdropUrl);

@@ -15,6 +15,8 @@
         public decimal? Price { get; set; }
         public decimal? Revenue { get; set; }
         public decimal? Rating { get; set; }
+        public bool IsUserAuthenticated { get; set; }
+        public bool IsPurchased { get; set; }
         public ICollection<GenreModel> Genres { get; set; } = null!;
         public ICollection<CastModel> Casts { get; set; } = null!;
         public ICollection<TrailerModel> Trailers { get; set; } = null!;

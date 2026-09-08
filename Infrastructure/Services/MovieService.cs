@@ -7,21 +7,31 @@ namespace Infrastructure.Services
     public class MovieService : IMovieService
     {
         private readonly IMovieRepository _movieRepository;
+        private readonly IPurchaseRepository _purchaseRepository;
 
-        public MovieService(IMovieRepository movieRepository)
+        public MovieService(IMovieRepository movieRepository, IPurchaseRepository purchaseRepository)
         {
             _movieRepository = movieRepository;
+            _purchaseRepository = purchaseRepository;
         }
 
-        public MovieDetailsModel? GetMovieDetails(int id)
+        public MovieDetailsModel? GetMovieDetails(int movieId, int? userId)
         {
-            var movie = _movieRepository.GetMovieByIdWithDetails(id);
+            var movie = _movieRepository.GetMovieByIdWithDetails(movieId);
             if (movie == null)
             {
                 return null;
             }
 
             decimal? averageRating = null;
+
+            bool isPurchased = false;
+
+            if (userId.HasValue && userId.Value > 0)
+            {
+                isPurchased = _purchaseRepository.IsMoviePurchasedByUser(movieId, userId.Value);
+            }
+
             if (movie.Reviews.Count() > 0)
             {
                 averageRating = movie.Reviews.Average(r => r.Rating);
@@ -42,6 +52,8 @@ namespace Infrastructure.Services
                 Price = movie.Price,
                 Revenue = movie.Revenue,
                 Rating = averageRating,
+                IsUserAuthenticated = userId.HasValue && userId.Value > 0,
+                IsPurchased = isPurchased,
                 Genres = movie.Genres.Select(g => new GenreModel
                 {
                     Id = g.Genre.Id,
