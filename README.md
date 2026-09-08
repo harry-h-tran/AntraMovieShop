@@ -1,5 +1,5 @@
 # HomePage:
-![Home Page Screenshot]("./assets/homepage.png")
+![Home Page Screenshot]("../assets/homepage.PNG")
 
 --
 # Login:
